@@ -1,0 +1,24 @@
+{
+  "name": "irk",
+  "version": "0.0.1",
+  "description": "IRC client library based around a streaming parser.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/tec27/irk"
+  },
+  "keywords": [
+    "irc",
+    "client",
+    "streaming"
+  ],
+  "author": "Travis Collins <travis@tec27.com> (http://tec27.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tec27/irk/issues"
+  },
+  "homepage": "https://github.com/tec27/irk"
+}
