@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/tec27/irk/issues"
   },
-  "homepage": "https://github.com/tec27/irk"
+  "homepage": "https://github.com/tec27/irk",
+  "dependencies": {
+    "parse-irc": "^0.2.2",
+    "through2": "^0.5.1"
+  },
+  "devDependencies": {}
 }
