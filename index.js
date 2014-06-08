@@ -1,8 +1,8 @@
 var parseIrc = require('parse-irc')
   , net = require('net')
   , inherits = require('util').inherits
-  , through = require('through2')
   , Duplex = require('stream').Duplex
+  , serializeMessage = require('./message-serializer')
 
 module.exports = function(port, host, options) {
   return new Irk(port, host, options)
@@ -15,7 +15,7 @@ function Irk(port, host, options) {
   }
 
   this._reader = parseIrc()
-  this._writer = createMessageToTextStream()
+  this._writer = serializeMessage()
   Duplex.call(this)
   this._readableState = this._reader._readableState
   this._writableState = this._writer._writableState
@@ -95,40 +95,4 @@ Irk.prototype.end = function(chunk, enc, cb) {
 
 Irk.prototype.write = function(chunk, enc, cb) {
   return this._writer.write(chunk, enc, cb)
-}
-
-function createMessageToTextStream() {
-  var stream = through(function(msg, enc, cb) {
-    if (!msg.command) {
-      return cb(new Error('IRC message must specify a command'))
-    }
-
-    var msgAsText = ''
-    if (msg.prefix) {
-      msgAsText += ':' + msg.prefix + ' '
-    }
-    msgAsText += msg.command
-
-    if (msg.params && msg.params.length) {
-      var joinedParams = msg.params
-        , lastParam = msg.params[msg.params.length - 1]
-        , hasTrailing = lastParam.indexOf(' ') > -1
-      if (hasTrailing) {
-        joinedParams = msg.params.slice(0, msg.params.length - 1)
-      }
-
-      if (joinedParams.length) {
-        msgAsText += ' ' + joinedParams.join(' ')
-      }
-      if (hasTrailing) {
-        msgAsText += ':' + lastParam
-      }
-    }
-
-    this.push(msgAsText + '\r\n')
-    cb()
-  })
-
-  stream._writableState.objectMode = true
-  return stream
 }
