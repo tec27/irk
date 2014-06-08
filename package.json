@@ -1,7 +1,7 @@
 {
   "name": "irk",
   "version": "0.0.1",
-  "description": "IRC client library based around a streaming parser.",
+  "description": "Simple duplex stream IRC client library.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
