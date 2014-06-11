@@ -1,13 +1,12 @@
 var irk = require('../')
-  , through = require('through2')
+  , objectify = require('through2-objectify')
 
 var client = irk(6667, 'irc.freenode.net')
 
-var objectToJsonStream = through(function(obj, enc, cb) {
+var objectToJsonStream = objectify.deobj(function(obj, enc, cb) {
   this.push('>> ' + JSON.stringify(obj) + '\n')
   cb()
 })
-objectToJsonStream._writableState.objectMode = true
 
 client.pipe(objectToJsonStream).pipe(process.stdout)
 client.on('connect', function() {

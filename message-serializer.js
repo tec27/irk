@@ -1,7 +1,7 @@
-var through = require('through2')
+var objectify = require('through2-objectify')
 
 module.exports = function() {
-  var stream = through(function(msg, enc, cb) {
+  return objectify.deobj(function(msg, enc, cb) {
     if (!msg.command) {
       return cb(new Error('IRC message must specify a command'))
     }
@@ -31,7 +31,4 @@ module.exports = function() {
     this.push(msgAsText + '\r\n')
     cb()
   })
-
-  stream._writableState.objectMode = true
-  return stream
 }
